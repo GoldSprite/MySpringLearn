@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://vjs.zencdn.net/7.14.3/video-js.css" rel="stylesheet">
+    <script src="https://vjs.zencdn.net/7.14.3/video.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/videojs-contrib-hls/5.15.0/videojs-contrib-hls.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>无限嵌套列表</title>
+    <style>
+
+        /* 默认隐藏的子列表 */
+        .child-list {
+            display: none;
+            margin-left: 20px; /* 控制子列表的缩进 */
+        }
+        /* 显示状态的子列表 */
+        .child-list.active {
+            display: block;
+        }
+
+        /* 侧边栏样式 */
+        nav {
+            display: inline-block; /* 将列表项变成行内块元素 */
+            transition: left 0.2s ease;
+            z-index: 1; /* 提高菜单项的堆叠顺序 */
+            width: 100%; /* 侧边栏的宽度 */
+            height: 100%; /* 侧边栏的高度，占据整个视口 */
+            position: fixed; /* 固定定位，保持在屏幕上 */
+            top: 0; /* 距离顶部距离 */
+            left: -120%; /* 距离左侧距离 */
+            background-color: #f0f0f0; /* 背景颜色 */
+            padding: 20px; /* 内边距 */
+            overflow-y: auto; /* 垂直滚动条 */
+            overflow-x: auto; /* 垂直滚动条 */
+        }
+
+        nav.open {
+            left: 0%;
+        }
+
+        /* 列表样式 */
+        nav ul {
+            list-style: none; /* 移除默认的列表样式 */
+            padding: 0px; /* 移除默认的内边距 */
+            margin: 0px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 添加阴影，实现背景颜色的间距 */
+        }
+
+        nav li {
+            padding: 20px;
+            padding-left: -10px; /* 设置列表项的内边距 */
+            margin-bottom: 0px; /* 设置列表项之间的间距 */
+            margin-left: -10px; /* 设置列表项之间的间距 */
+            background-color: #ddd; /* 设置背景颜色 */
+            border-radius: 5px; /* 设置边框圆角 */
+            cursor: pointer; /* 设置光标样式为手型 */
+        }
+
+        nav li:hover {
+            background-color: #ccc; /* 设置鼠标悬停时的背景颜色 */
+        }
+
+        nav ul ul {
+            margin-left: 0; /* 取消左侧缩进 */
+        }
+
+        nav ul ul li {
+            margin-left: 0; /* 取消左侧缩进 */
+        }
+
+        #links {
+            margin-left: 40px; /* 抽屉列表展开后链接列表的左边距 */
+            padding: 20px;
+            position: relative; /* 确保链接列表的相对定位 */
+            z-index: 0; /* 将链接列表的 z-index 设置为 0，确保位于菜单项下方 */
+        }
+
+        #links ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        #links li {
+            margin-bottom: 10px;
+        }
+
+        #links li a {
+            text-decoration: none;
+            color: blue;
+        }
+
+        #links li a:hover {
+            text-decoration: underline;
+        }
+
+        .menu-toggle {
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 2; /* 设置更高的 z-index，确保位于菜单项上方 */
+        }
+    </style>
+</head>
+<body>
+
+<div class="menu-toggle" onclick="toggleDrawer()">☰</div>
+
+<nav id="drawer">
+    <h2>老铁们, 击剑啦!</h2>
+    <ul class="nested-list">
+        <li>1-3层
+            <ul class="child-list">
+                <li>空的占位</li>
+                <li>2-2层
+                    <ul class="child-list">
+                        <li>空的占位</li>
+                        <li>3-1层
+                            <ul class="child-list">
+                                <li><a href="#" onclick="showLinks('menu1')">菜单项 1</a></li>
+                                <li><a href="#" onclick="showLinks('menu2')">菜单项 2</a></li>
+                                <li><a href="#" onclick="showLinks('menu3')">菜单项 3</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </li>
+        <li>1-单层
+            <ul class="child-list">
+                <li>空的占位</li>
+                <li>空的占位</li>
+            </ul>
+        </li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+        <li>空的占位</li>
+    </ul>
+</nav>
+
+<div id="links">
+    <ul id="menu1" style="display:none;">
+        <li><a href="#">现在啥也没有, 等看弄UTP游戏服</a></li>
+        <li><a href="https://m3u8pro.bookln.cn/tm6944944_7d449bbedf46fabec60b9f77d5db6250088b8ff1.m3u8">视频1</a></li>
+        <li><video id="my-video" class="video-js" controls width="800" height="350" data-setup="{}">
+            <source src="https://m3u8pro.bookln.cn/tm6944944_7d449bbedf46fabec60b9f77d5db6250088b8ff1.m3u8" type="application/x-mpegURL">
+            Your browser does not support the video tag.
+        </video></li>
+    </ul>
+    <ul id="menu2" style="display:none;">
+        <li><a href="#">空的占位</a></li>
+        <li><a href="#">空的占位</a></li>
+    </ul>
+    <ul id="menu3" style="display:none;">
+        <li><a href="#">空的占位</a></li>
+        <li><a href="#">空的占位</a></li>
+    </ul>
+</div>
+
+<script>
+    function toggleDrawer() {
+        const drawer = document.getElementById('drawer');
+        drawer.classList.toggle('open');
+    }
+
+    // JavaScript 代码来添加点击事件
+    document.addEventListener("DOMContentLoaded", function() {
+        var nestedListItems = document.querySelectorAll(".nested-list li");
+
+        nestedListItems.forEach(function(item) {
+            item.addEventListener("click", function(event) {
+                var childList = this.querySelector(".child-list");
+                if (childList) {
+                    if (childList.classList.contains("active")) {
+                        childList.classList.remove("active");
+                    } else {
+                        childList.classList.add("active");
+                    }
+                    event.stopPropagation(); // 阻止事件冒泡，避免触发父元素的点击事件
+                }
+            });
+        });
+    });
+
+    function showLinks(menuId) {
+        drawer.classList.toggle('open');
+        // 隐藏所有链接列表
+        document.querySelectorAll('#links ul').forEach(function(el) {
+            el.style.display = 'none';
+        });
+        // 显示指定菜单项对应的链接列表
+        const links = document.getElementById(menuId);
+        if (links) {
+            links.style.display = 'block';
+        }
+    }
+
+
+    var isDown = false;
+    var startX;
+    var scrollLeft;
+
+    function startDrag(e) {
+        isDown = true;
+        startX = e.pageX - document.getElementById('drawer-container').offsetLeft;
+        scrollLeft = document.getElementById('drawer-container').scrollLeft;
+    }
+
+    function endDrag() {
+        isDown = false;
+    }
+
+    function drag(e) {
+        if (!isDown) return;
+        e.preventDefault();
+        var x = e.pageX - document.getElementById('drawer-container').offsetLeft;
+        var walk = (x - startX) * 3; // 控制滚动速度
+        document.getElementById('drawer-container').scrollLeft = scrollLeft - walk;
+    }
+
+    document.addEventListener('mouseup', endDrag);
+    document.addEventListener('mousemove', drag);
+</script>
+
+</body>
+</html>
